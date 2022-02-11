@@ -1,0 +1,12 @@
+welcome: 'Welcome to Calculator! Enter your name:'
+valid_name: 'Please enter a valid name.'
+response_name: "Hi #{name}!"
+enter_number1: 'Enter a number?'
+number_error: 'Sorry, that doesn\'t look like a valid number.'
+enter_number2: 'Enter a second number'
+error1234: 'Must choose 1, 2, 3 or 4'
+operation: "#{operation_to_message(operator)} the two numbers..."
+result: "The result is #{result}"
+perform_again: 'Do you want to perform a calculation again? Y/N'
+thank_you: 'Thank you for using the Calculator. Good bye!'
+
