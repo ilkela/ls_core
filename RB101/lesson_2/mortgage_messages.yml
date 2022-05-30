@@ -1,0 +1,11 @@
+en:
+ welcome: 'Welcome to Mortgage Calculator'
+ amount: 'Enter your loan amount: '
+ error: 'Sorry, please enter a number that is greater than 0'
+ apr: 'Enter the Annual Percentage Rate (eg. 6 for 6%, 2.5 for 2.5%): '
+ loan_duration: 'Enter the loan duration in years and months'
+ years: 'years: '
+ months: 'months: '
+ again: 'Would you like to perform another calculation? (Y/N)'
+ thank_you: 'Thank you for using Mortgage Calculator'
+ goodbye: 'Good bye!'
