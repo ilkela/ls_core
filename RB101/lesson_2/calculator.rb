@@ -1,5 +1,5 @@
-# asK the user for two numbers
-# asK the user for an operation to perform
+# ask the user for two numbers
+# ask the user for an operation to perform
 # perform the operation on the two numbers
 # output the result
 
@@ -23,6 +23,6 @@ elsif operator == '3'
 else
   result = number1.to_f() / number2.to_f()
 end
-  
+
 
 Kernel.puts("The result is #{result}")

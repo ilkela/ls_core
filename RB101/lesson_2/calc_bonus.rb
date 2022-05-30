@@ -1,78 +1,86 @@
 require 'yaml'
 MESSAGES = YAML.load_file('calculator_messages.yml')
-puts MESSAGES.inspect
+LANGUAGE = 'en'
+
+# Methods
+
+def messages(message, language = 'en')
+  MESSAGES[language][message]
+end
 
 def prompt(message)
   puts("=> #{message}")
 end
 
-def valid_number?(num)
-  num.to_i.to_s == num
+def valid_integer?(number)
+  number.to_i.to_s == number
+end
+
+def valid_float?(number)
+  number.to_f.to_s == number
+end
+
+def valid_number?(number)
+  valid_integer?(number) || valid_float?(number)
 end
 
 def operation_to_message(op)
   word = case op
          when '1'
-           'Adding'
+           messages('adding', LANGUAGE)
          when '2'
-           'Subtracting'
+           messages('subtracting', LANGUAGE)
          when '3'
-           'Multiplying'
+           messages('multiplying', LANGUAGE)
          when '4'
-           'Dividing'
+           messages('dividing', LANGUAGE)
          end
   word
 end
 
-prompt('Welcome to Calculator! Enter your name:')
+# Start of program
+
+prompt(messages('welcome', LANGUAGE))
 
 name = ''
 loop do
   name = gets.chomp
 
   if name.empty?()
-    prompt('Please enter a valid name.')
+    prompt(messages('valid_name', LANGUAGE))
   else
     break
   end
 end
 
-prompt("Hi #{name}!")
+prompt(messages('hello', LANGUAGE) + ' ' + name)
 
-loop do # main loop
+loop do
   number1 = ''
   loop do
-    prompt('Enter a number?')
+    prompt(messages('enter_number1', LANGUAGE))
     number1 = gets.chomp
 
     if valid_number?(number1)
       break
     else
-      prompt("Sorry, that doesn't look like a valid number.")
+      prompt(messages('number_error', LANGUAGE))
     end
   end
 
   number2 = ''
   loop do
-    prompt('Enter a second number')
+    prompt(messages('enter_number2', LANGUAGE))
     number2 = gets.chomp
 
     if valid_number?(number2)
       break
     else
-      prompt("Sorry, that doesn't look like a valid number.")
+      prompt(messages('number_error', LANGUAGE))
     end
   end
 
-  operator_prompt = <<-MSG
-    What operation would you like to perform?
-    1) addition
-    2) subtraction
-    3) multiplication
-    4) division
-  MSG
-
-  prompt(operator_prompt)
+  prompt(messages('operator_prompt', LANGUAGE))
 
   operator = ''
   loop do
@@ -81,28 +89,28 @@ loop do # main loop
     if %w(1 2 3 4).include?(operator)
       break
     else
-      prompt('Must choose 1, 2, 3 or 4')
+      prompt(messages('error1234', LANGUAGE))
     end
   end
 
-  prompt("#{operation_to_message(operator)} the two numbers...")
+  prompt(operation_to_message(operator))
 
   result = case operator
            when '1'
-             number1.to_i() + number2.to_i()
+             number1.to_f() + number2.to_f()
            when '2'
-             number1.to_i() - number2.to_i()
+             number1.to_f() - number2.to_f()
            when '3'
-             number1.to_i() * number2.to_i()
+             number1.to_f() * number2.to_f()
            when '4'
              number1.to_f() / number2.to_f()
            end
 
-  prompt("The result is #{result}")
+  prompt(messages('result', LANGUAGE) + ' ' + result.to_s)
 
-  prompt('Do you want to perform a calculation again? Y/N')
+  prompt(messages('perform_again', LANGUAGE))
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
 end
 
-prompt('Thank you for using the Calculator. Good bye!')
+prompt(messages('thank_you', LANGUAGE))

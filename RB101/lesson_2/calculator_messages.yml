@@ -1,12 +1,44 @@
-welcome: 'Welcome to Calculator! Enter your name:'
-valid_name: 'Please enter a valid name.'
-response_name: "Hi #{name}!"
-enter_number1: 'Enter a number?'
-number_error: 'Sorry, that doesn\'t look like a valid number.'
-enter_number2: 'Enter a second number'
-error1234: 'Must choose 1, 2, 3 or 4'
-operation: "#{operation_to_message(operator)} the two numbers..."
-result: "The result is #{result}"
-perform_again: 'Do you want to perform a calculation again? Y/N'
-thank_you: 'Thank you for using the Calculator. Good bye!'
+en:
+ welcome: "Welcome to Calculator! Enter your name:"
+ valid_name: "Please enter a valid name."
+ hello: "Hi"
+ enter_number1: "Enter a number?"
+ number_error: "Sorry, that doesn't look like a valid number."
+ enter_number2: "Enter a second number"
+ operator_prompt: |
+     What operation would you like to perform?
+     1) addition
+     2) subtraction
+     3) multiplication
+     4) division
+ error1234: "Must choose 1, 2, 3 or 4"
+ adding: "Adding..."
+ subtracting: "Subtracting..."
+ multiplying: "Multiplying..."
+ dividing: "Dividing..."
+ result: "The result is:"
+ perform_again: "Do you want to perform a calculation again? Y/N"
+ thank_you: "Thank you for using the Calculator. Good bye!"
+
+af:
+ welcome: "Welkom by Sakrekenaar! Voer jou naam in:"
+ valid_name: "Voer asseblief 'n geldige naam in."
+ hello: "Hi"
+ enter_number1: "Voer 'n nommer in?"
+ number_error: "Jammer, dit lyk nie na 'n geldige nommer nie."
+ enter_number2: "Voer 'n tweede nommer in"
+ operator_prompt: |
+     Watter operasie sal jy graag wil uitvoer?
+     1) toevoeging
+     2) aftrekking
+     3) vermenigvuldiging
+     4) verdeling
+ error1234: "Moet 1, 2, 3 of 4 kies"
+ adding: "Byvoeging..."
+ subtracting: "Trek tans af..."
+ multiplying: "Vermenigvuldiging"
+ dividing: "Verdeel"
+ result: "Die resultaat is:"
+ perform_again: "Wil jy weer 'n berekening uitvoer? Y/N"
+ thank_you: "Dankie dat jy die Sakrekenaar gebruik. Totsiens!"
 
