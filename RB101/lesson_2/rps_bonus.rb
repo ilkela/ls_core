@@ -76,13 +76,13 @@ end
 
 # Main body of program
 
-player_counter = 0
-computer_counter = 0
-
 puts("-------------------------------------------")
 puts("Welcome to ROCK PAPER SCISSORS LIZARD SPOCK")
 puts("---------First to 3 points wins!-----------")
 puts("-------------------------------------------")
+
+player_counter = 0
+computer_counter = 0
 
 loop do
   player_choice = get_player_choice
