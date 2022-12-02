@@ -1,0 +1,16 @@
+
+[1mFrom:[0m /home/ec2-user/environment/ls_core/exercises/small_problems/easy_3/scratch.rb:6 Object#longest_word:
+
+     [1;34m2[0m: [32mdef[0m [1;34mlongest_word[0m(sentence)
+     [1;34m3[0m:   words = sentence.split
+     [1;34m4[0m:   saved_word = words.shift
+     [1;34m5[0m: binding.pry
+ =>  [1;34m6[0m:   words.each [32mdo[0m |word|
+     [1;34m7[0m:     [32mif[0m word.length >= saved_word.length
+     [1;34m8[0m:       saved_word = word
+     [1;34m9[0m:     [32mend[0m
+    [1;34m10[0m:   [32mend[0m
+    [1;34m11[0m: 
+    [1;34m12[0m:   saved_word
+    [1;34m13[0m: [32mend[0m
+
