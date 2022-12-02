@@ -1,4 +1,4 @@
-require "pry"
+
 # constants
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
@@ -10,6 +10,12 @@ WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
 # methods
 def prompt(msg)
   puts "=> #{msg}"
+end
+
+def initialize_board
+  new_board = {}
+  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
+  new_board
 end
 
 # rubocop: disable Metrics/AbcSize
@@ -31,12 +37,6 @@ def display_board(brd)
   puts ""
 end
 # rubocop: enable Metrics/AbcSize
-
-def initialize_board
-  new_board = {}
-  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
-  new_board
-end
 
 def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
@@ -91,20 +91,45 @@ def joinor(array, delimiter = ', ', word = 'or')
   string
 end
 
-def update_counter(player, computer, brd)
+=begin
+def update_score(player, computer, brd)
   if detect_winner(brd) == "Player"
     player += 1
   else
     computer += 1
   end
 end
+=end
 
+=begin
+def find_at_risk_square(square, brd)
+  WINNING_LINES.each do |line|
+    if brd.values_at(line[0], line[1], line[2]).count(PLAYER_MARKER) == 2
+      line.each do |num|
+        if num == INITIAL_MARKER
+          brd[square] = COMPUTER_MARKER
+        end
+      end
+    else
+      computer_places_piece!(brd)
+    end
+  end
+  nil
+end
+=end
+def find_at_risk_square(line, board)
+  if board.values_at(*line).count('X') == 2
+    board.select{|k,v| line.include?(k) && v == ' '}.keys.first
+  else
+    nil
+  end
+end
 # Start of program
-player_counter = 0
-computer_counter = 0
+player_score = 0
+computer_score = 0
 
 loop do
-  board = initialize_board
+  board = initialize_board # board variable assigned to a hash. Hash has keys labelled 1-9 and values of " ".
 
   loop do
     display_board(board)
@@ -122,9 +147,20 @@ loop do
     prompt "It's a tie!"
   end
 
-  update_counter(player_counter, computer_counter, board)
-  prompt "Player score: #{player_counter}, computer score: #{computer_counter}"
-binding.pry
+  #update_score(player_score, computer_score, board)
+
+  detect_winner(board) == "Player" ? player_score += 1 : computer_score += 1
+
+  prompt "Player score: #{player_score}, computer score: #{computer_score}"
+
+  if player_score == 5
+    prompt "You have 5 points, you're the GRAND WINNER!"
+    break
+  elsif computer_score == 5
+    prompt "Computer has 5 points, Computer is the GRAND WINNER!"
+    break
+  end
+
   prompt "Play again? (y or n)"
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')

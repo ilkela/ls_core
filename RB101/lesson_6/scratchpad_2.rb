@@ -1,4 +1,12 @@
-input_string = "ZzCcBbAa !!!123454 "
-p chars_array = input_string.delete("^A-Za-z").chars
+a = 4
+
+loop do
+  a = 5
+  b = 3
+  break
+end
+
+puts a
+puts b
 
 

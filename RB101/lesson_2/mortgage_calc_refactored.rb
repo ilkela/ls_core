@@ -27,6 +27,10 @@ def valid_number?(number)
   valid_integer?(number) || valid_float?(number)
 end
 
+def valid_y_n(string)
+  string == 'y' || string == 'n'
+end
+
 # next 4 methods: to get and validate inputs
 def get_loan_amount
   loop do
@@ -107,7 +111,7 @@ loop do
 
   prompt(messages('again', LANGUAGE))
   answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  break if valid_y_n(answer) == 'n'
 end
 
 prompt(messages('thank_you', LANGUAGE))
