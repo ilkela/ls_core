@@ -12,6 +12,19 @@ PLAY_AGAIN_YES = %w(yes y)
 
 PLAY_AGAIN_NO = %w(no n)
 
+WELCOME_MESSAGE = <<-TEXT
+-------------------------------------------
+Welcome to ROCK PAPER SCISSORS LIZARD SPOCK
+---------First to 3 points wins!-----------
+-------------------------------------------
+TEXT
+
+GOODBYE_MESSAGE = <<-TEXT
+-----------------------------------------------------------------
+Thank you for playing ROCK PAPER SCISSORS LIZARD SPOCK! Good bye.
+-----------------------------------------------------------------
+TEXT
+
 # methods
 
 def prompt(message)
@@ -29,6 +42,24 @@ def display_results(player, computer)
     puts("Computer won!")
   else
     puts("It's a tie!")
+  end
+end
+
+def increment_counter(player, computer, player_counter, computer_counter)
+  if win?(player, computer)
+    player_counter[0] += 1
+  elsif win?(computer, player)
+    computer_counter[0] += 1
+  end
+end
+
+def determine_grand_winner(player_counter, computer_counter)
+  if player_counter[0] == 3
+    prompt("You have 3 points! You are the GRAND WINNER!")
+    "player"
+  elsif computer_counter[0] == 3
+    prompt("Computer has 3 points. Computer is the grand winner!")
+    "computer"
   end
 end
 
@@ -76,13 +107,10 @@ end
 
 # Main body of program
 
-puts("-------------------------------------------")
-puts("Welcome to ROCK PAPER SCISSORS LIZARD SPOCK")
-puts("---------First to 3 points wins!-----------")
-puts("-------------------------------------------")
+puts WELCOME_MESSAGE
 
-player_counter = 0
-computer_counter = 0
+player_counter = [0]
+computer_counter = [0]
 
 loop do
   player_choice = get_player_choice
@@ -93,29 +121,16 @@ loop do
   prompt("You chose #{player_choice}; Computer chose #{computer_choice}.")
 
   display_results(player_choice, computer_choice)
-
-  if win?(player_choice, computer_choice)
-    player_counter += 1
-  elsif win?(computer_choice, player_choice)
-    computer_counter += 1
-  end
+  increment_counter(player_choice, computer_choice, player_counter, computer_counter)
 
   prompt("Your score: #{player_counter}")
   prompt("Computer score: #{computer_counter}")
 
-  if player_counter == 3
-    prompt("You have 3 points! You are the GRAND WINNER!")
-    break
-  elsif computer_counter == 3
-    prompt("Computer has 3 points.Computer is the grand winner!")
-    break
-  end
-
+  break if determine_grand_winner(player_counter, computer_counter)
+  
   play_again = play_again_answer
 
   break unless PLAY_AGAIN_YES.include?(play_again.downcase)
 end
 
-puts("-----------------------------------------------------------------")
-puts("Thank you for playing ROCK PAPER SCISSORS LIZARD SPOCK! Good bye.")
-puts("-----------------------------------------------------------------")
+puts GOODBYE_MESSAGE
