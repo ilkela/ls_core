@@ -128,9 +128,8 @@ loop do
 
   break if determine_grand_winner(player_counter, computer_counter)
   
-  play_again = play_again_answer
-
-  break unless PLAY_AGAIN_YES.include?(play_again.downcase)
+  # play_again = play_again_answer
+  # break unless PLAY_AGAIN_YES.include?(play_again.downcase)
 end
 
 puts GOODBYE_MESSAGE
