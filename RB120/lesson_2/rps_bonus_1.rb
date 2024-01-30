@@ -24,7 +24,7 @@ module Displayable
   - Rock crushes Scissors
 
   And don't forget: first to 5 points wins!
-  -------------------------------------------------------------------------
+  ------------------------------------------
   TEXT
 
   GOODBYE_MESSAGE = <<-TEXT
@@ -34,7 +34,7 @@ module Displayable
   TEXT
 
   def display_welcome_message
-    system 'clear'
+    clear_system
     puts WELCOME_MESSAGE
   end
 
