@@ -44,8 +44,9 @@ module Displayable
   end
 
   def display_moves
-    puts "#{human.name} chose #{human.move}"
-    puts "#{computer.name} chose #{computer.move}"
+    [human, computer].each do |player|
+      puts "#{player.name} chose #{player.move}"
+    end
   end
 
   def display_winner
@@ -60,8 +61,9 @@ module Displayable
 
   def display_score
     puts "The score is:"
-    puts "#{human.name}: #{human.score.retrieve}"
-    puts "#{computer.name}: #{computer.score.retrieve}"
+    [human, computer].each do |player|
+      puts "#{player.name}: #{player.score.retrieve}"
+    end
   end
 
   def ask(question)
@@ -178,12 +180,16 @@ class Player
   attr_accessor :move, :name, :score
 
   def initialize
-    set_name
     @score = Score.new(0)
   end
 end
 
 class Human < Player
+  def initialize
+    set_name
+    super
+  end
+
   def set_name
     n = ''
     loop do
@@ -222,7 +228,7 @@ class Computer < Player
     super
   end
 
-  def set_name
+  def opponent
     n = ''
     loop do
       puts "Choose your opponent: R2D2, Hal, Chappie or Sonny"
@@ -284,7 +290,6 @@ class RPSGame
     if answer.downcase == 'n'
       false
     elsif answer.downcase == 'y'
-      reset_game
       true
     end
   end
@@ -303,7 +308,7 @@ class RPSGame
     human.score.reset
     computer.score.reset
     clear_system
-    computer.set_name
+    computer.opponent
     game_history.reset
   end
 
@@ -328,10 +333,12 @@ class RPSGame
 
   def play
     display_rules
+    computer.opponent
     loop do
       clear_system
       main_game_loop
       break unless play_again?
+      reset_game
     end
     display_goodbye_message
   end
