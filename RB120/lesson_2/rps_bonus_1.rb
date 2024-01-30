@@ -2,17 +2,12 @@ module Displayable
   WELCOME_MESSAGE = <<-TEXT
   -------------------------------------------
   Welcome to ROCK PAPER SCISSORS LIZARD SPOCK
+  ---------first to 5 points wins!-----------
   -------------------------------------------
   TEXT
-
-  BANNER = <<-TEXT
-  --------------------------------
-  ROCK PAPER SCISSORS LIZARD SPOCK
-  --------------------------------
-  TEXT
-
+  
   RULES = <<-TEXT
-  Before we begin here are a few things about the game you need to know:
+  Hi! Before we begin here are a few things about the game you need to know:
   - you'll be playing against the computer
   - you get to choose how many rounds each game consists of
 
@@ -22,96 +17,109 @@ module Displayable
   - Rock crushes Lizard
   - Lizard poisons Spock
   - Spock smashes Scissors
-  - Scissors decapitates Lizard 
+  - Scissors decapitates Lizard
   - Lizard eats Paper
   - Paper disproves Spock
   - Spock vaporizes Rock
   - Rock crushes Scissors
-  TEXT
 
+  And don't forget: first to 5 points wins!
+  -------------------------------------------------------------------------
+  TEXT
+  
   GOODBYE_MESSAGE = <<-TEXT
   -----------------------------------------------------------------
   Thank you for playing ROCK PAPER SCISSORS LIZARD SPOCK! Good bye.
   -----------------------------------------------------------------
   TEXT
-
-  def prompt(message)
-    "=> #{message}"
-  end
-
+  
   def display_welcome_message
+    system 'clear'
     puts WELCOME_MESSAGE
   end
-
-  def display_banner
-    puts BANNER
-  end
-
+  
   def display_rules
     puts RULES
   end
-
-  def display_round_number
-    puts "ROUND NUMBER: #{round_counter}".center(32)
-  end
-
+  
   def display_moves
     puts "#{human.name} chose #{human.move}"
     puts "#{computer.name} chose #{computer.move}"
   end
   
   def display_winner
-    if human.move > computer.move
+    if determine_winner == "human"
       puts "#{human.name} won!"
-    elsif human.move < computer.move
+    elsif determine_winner == "computer"
       puts "#{computer.name} won!"
     else
       puts "It's a tie!"
     end
   end
   
-  def display_score
-    puts "#{human.name}'s score is #{human.score}."
-    puts "#{computer.name}'s score is #{computer.score}."
-  end
+def display_score
+  puts "The score is:"
+  puts "#{human.name}: #{human.score.retrieve}"
+  puts "#{computer.name}: #{computer.score.retrieve}"
+end
 
-  def display_history
+def display_history?
+  answer = nil
+  loop do
+    puts "Would you like to see the game history? (y/n)"
+    answer = gets.chomp
+    break if ['y', 'n'].include?(answer.downcase)
+    puts "Sorry, must be y or n."
   end
+  
+  if answer == 'y'
+    game_history.retrieve_log.each do |player, moves|
+      puts "#{player} has made the following moves: #{moves}"
+    end
+    continue
+  end
+end
 
   def display_goodbye_message
     puts GOODBYE_MESSAGE
+  end
+  
+  def clear_system
+    system 'clear'
   end
 end
 
 class Move
   WINNING_MOVES = { 
-                  'rock' => ['scissors', 'lizard'],
-                  'paper' => ['rock', 'spock'],
-                  'scissors' => ['paper', 'lizard'],
-                  'lizard' => ['spock', 'paper'],
-                  'spock' => ['rock', 'scissors'] 
-                  }
+  'rock' => ['scissors', 'lizard'],
+  'paper' => ['rock', 'spock'],
+  'scissors' => ['paper', 'lizard'],
+  'lizard' => ['spock', 'paper'],
+  'spock' => ['rock', 'scissors'] 
+  }
 
   ABBREVIATIONS = { 
-                  'r' => 'rock', 
-                  'p' => 'paper', 
-                  's' => 'scissors', 
-                  'o' => 'spock', 
-                  'l' => 'lizard' 
-                  }
+  'r' => 'rock', 
+  'p' => 'paper', 
+  's' => 'scissors', 
+  'o' => 'spock', 
+  'l' => 'lizard' 
+  }
 
+  attr_accessor :move
+  
   def initialize(move)
     @move = move
   end
-
-  def >(other_move)
-    Move::WINNING_MOVES[move].include?(other_move)
+  
+  def >(other)
+    WINNING_MOVES[move].include?(other.move)
   end
-
-  def <(other_move)
-    Move::WINNING_MOVES[other_move].include?(move)
+  
+  def <(other)
+    WINNING_MOVES[other.move].include?(move)
   end
-
+  
   def to_s
     @move
   end
@@ -119,76 +127,153 @@ end
 
 class Score
   attr_accessor :points
-
-  def initialize
-    @points = 0
+  
+  def initialize(points)
+    @points = points
   end
-
-  def update
+  
+  def retrieve
+    points
+  end
+  
+  def increment
     self.points += 1
   end
-
+  
   def reset
-    @points = 0
+    self.points = 0
+  end
+end
+
+class History
+  attr_accessor :move_log
+  
+  def initialize
+    @move_log = {}
+  end
+  
+  def update_log(player, move)
+    if move_log.has_key?(player)
+      move_log[player] << move
+    else
+      self.move_log[player] = [move]
+    end
+  end
+  
+  def retrieve_log
+    move_log
+  end
+  
+  def reset
+    self.move_log = {}
   end
 end
 
 class Player
   attr_accessor :move, :name, :score
-
+  
   def initialize
     set_name
-    @score = Score.new
+    @score = Score.new(0)
   end
 end
 
 class Human < Player
   def set_name
-    puts Displayable::WELCOME_MESSAGE
     n = ''
     loop do
       puts "What's your name"
       n = gets.chomp
-      break unless n.empty? || n.strip.empty?
+      break unless n.empty?
       puts "Sorry, must enter a value."
     end
-    self.name = n
+    self.name = n.upcase
   end
-
+  
   def choose
     choice = nil
     loop do
-      puts "Please chose rock, paper, or scissors:"
+      puts "Please chose [r]ock, [p]aper, [s]cissors, [l]izard or sp[o]ck:"
       choice = gets.chomp
-      break if ['rock', 'paper', 'scissors'].include?(choice)
+      break if Move::ABBREVIATIONS.values.include?(choice) || Move::ABBREVIATIONS.keys.include?(choice)
       puts "Sorry, invalid choice"
     end
+    choice = choice.size == 1 ? Move::ABBREVIATIONS[choice] : choice
     self.move = Move.new(choice)
   end
 end
 
 class Computer < Player
-  def set_name
-    self.name = ['R2D2', 'Hal', 'Chappie', 'Sonny'].sample
+  attr_reader :personalities
+  
+  def initialize
+    @personalities = { 
+      'R2D2' => ['rock', 'rock', 'lizard', 'rock'],
+      'HAL' => ['rock', 'paper', 'scissors', 'lizard', 'spock'],
+      'CHAPPIE' => ['rock', 'paper', 'paper' 'scissors', 'lizard', 'spock'],
+      'SONNY' => ['scissors', 'spock'] 
+    }
+    super
   end
-
+  
+  def set_name
+    n = ''
+    loop do
+      puts "Choose your opponent: R2D2, Hal, Chappie or Sonny"
+      n = gets.chomp
+      break if ['r2d2', 'hal', 'chappie', 'sonny'].include?(n.downcase)
+      puts "Sorry, must enter a valid opponent's name."
+    end
+    self.name = n.upcase
+  end
+  
   def choose
-    self.move = Move.new(Move::WINNING_MOVES.sample)
+    self.move = Move.new(personalities[name].sample)
   end
 end
 
 class RPSGame
   include Displayable
-
-  attr_accessor :human, :computer, :round, :history
-
+  
+  attr_accessor :human, :computer, :game_history
+  
   def initialize
+    display_welcome_message
     @human = Human.new
     @computer = Computer.new
-    @round = 1
-    @history = History.new
+    @game_history = History.new
   end
-
+  
+  def determine_winner
+    if human.move > computer.move
+      "human"
+    elsif human.move < computer.move
+      "computer"
+    end
+  end
+  
+  def increment_score
+    if determine_winner == "human"
+      human.score.increment
+    elsif determine_winner == "computer"
+      computer.score.increment
+    end
+  end
+  
+  def grand_winner?
+    if human.score.retrieve == 5
+      puts '------------------------------------------------------------'
+      puts "#{human.name} is the GRAND WINNER!".center(60)
+      puts '------------------------------------------------------------'
+    elsif computer.score.retrieve == 5
+      puts '------------------------------------------------------------'
+      puts "#{computer.name} is the GRAND WINNER!".center(60)
+      puts '------------------------------------------------------------'
+    else
+      "not yet"
+    end
+  end
+  
   def play_again?
     answer = nil
     loop do
@@ -197,26 +282,50 @@ class RPSGame
       break if ['y', 'n'].include?(answer.downcase)
       puts "Sorry, must be y or n."
     end
-
-    return false if answer.downcase == 'n'
-    return true if answer.downcase == 'y'
+    
+    if answer.downcase == 'n'
+      return false 
+    elsif answer.downcase == 'y'
+      reset_game
+      return true
+    end
   end
-
+  
+  def reset_game
+    human.score.reset
+    computer.score.reset
+    clear_system
+    computer.set_name
+    game_history.reset
+    
+  end
+  
+  def continue
+    puts "Press 'enter' to continue"
+    gets
+  end
+  
   def play
-    display_banner
-    loop do 
+    display_rules
+    continue
+    loop do
+      clear_system
       loop do
         human.choose
         computer.choose
+        game_history.update_log(human.name, human.move.to_s)
+        game_history.update_log(computer.name, computer.move.to_s)
         display_moves
+        determine_winner
         display_winner
-        update_score
+        increment_score
         display_score
-        break if human.score == 5 || computer.score == 5
+        break unless grand_winner? == "not yet"
+        display_history?
       end
-      break unless play_again?
+        break unless play_again?
     end
-    display_goodbye_message
+      display_goodbye_message
   end
 end
 
