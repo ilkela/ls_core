@@ -1,7 +1,6 @@
 module UserInterface
-  def prompt
-  end
-  
+  def prompt; end
+
   def get_name
     n = ''
     loop do
@@ -13,14 +12,11 @@ module UserInterface
     n.capitalize
   end
 
-  def get_opponent
-  end
+  def get_opponent; end
 
-  def get_move
-  end
+  def get_move; end
 
-  def get_play_to_score
-  end
+  def get_play_to_score; end
 end
 
 module Displayable
@@ -28,17 +24,15 @@ module Displayable
     puts "Welcome to Rock, Paper, Scissors!"
   end
 
-  def display_rules
-  end
+  def display_rules; end
 
-  def display_round_number
-  end
+  def display_round_number; end
 
   def display_moves
     puts "#{human.name} chose #{human.move}"
     puts "#{computer.name} chose #{computer.move}"
   end
-  
+
   def display_winner
     if human.move > computer.move
       puts "#{human.name} won!"
@@ -48,35 +42,33 @@ module Displayable
       puts "It's a tie!"
     end
   end
-  
+
   def display_score
     puts "#{human.name}'s score is #{human.score}."
     puts "#{computer.name}'s score is #{computer.score}."
   end
 
-  def display_history
-  end
+  def display_history; end
 
-  def display_goodbye_message
-  end
+  def display_goodbye_message; end
 end
 
 class Move
-  WINNING_MOVES = { 
-                  'rock' => ['scissors', 'lizard'],
-                  'paper' => ['rock', 'spock'],
-                  'scissors' => ['paper', 'lizard'],
-                  'lizard' => ['spock', 'paper'],
-                  'spock' => ['rock', 'scissors'] 
-                  }
+  WINNING_MOVES = {
+    'rock' => ['scissors', 'lizard'],
+    'paper' => ['rock', 'spock'],
+    'scissors' => ['paper', 'lizard'],
+    'lizard' => ['spock', 'paper'],
+    'spock' => ['rock', 'scissors']
+  }
 
-  ABBREVIATIONS = { 
-                  'r' => 'rock', 
-                  'p' => 'paper', 
-                  's' => 'scissors', 
-                  'o' => 'spock', 
-                  'l' => 'lizard' 
-                  }
+  ABBREVIATIONS = {
+    'r' => 'rock',
+    'p' => 'paper',
+    's' => 'scissors',
+    'o' => 'spock',
+    'l' => 'lizard'
+  }
 
   def initialize(move)
     @move = move
