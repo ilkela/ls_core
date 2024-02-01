@@ -80,10 +80,10 @@ module DisplayRPSGame
   def display_history?
     answer = ask("Would you like to see the game history? (y/n)")
     return unless answer == 'y'
-    
+
     game_history.retrieve_log.each do |player, moves|
-      puts "#{player} has made the following moves:" 
-      moves.each_with_index { |move, index| puts "round #{index+1}: #{move}" }
+      puts "#{player} has made the following moves:"
+      moves.each_with_index { |move, index| puts "round #{index + 1}: #{move}" }
     end
     continue
   end
@@ -95,7 +95,7 @@ module DisplayRPSGame
   def clear_system
     system 'clear'
   end
-  
+
   def continue
     puts "Press 'enter' to continue"
     gets
@@ -121,7 +121,7 @@ class Move
 
   def self.valid?(choice)
     ABBREVIATIONS.values.include?(choice) ||
-    ABBREVIATIONS.keys.include?(choice)
+      ABBREVIATIONS.keys.include?(choice)
   end
 
   attr_accessor :move
@@ -232,9 +232,9 @@ class Computer < Player
     'CHAPPIE' => ['rock', 'paper', 'paper', 'scissors', 'lizard', 'spock'],
     'SONNY' => ['scissors', 'spock']
   }
-  
+
   attr_accessor :move_list
-  
+
   def opponent
     n = ''
     loop do
@@ -254,7 +254,7 @@ end
 
 class RPSGame
   include DisplayRPSGame
-  
+
   def play
     display_rules
     computer.opponent
@@ -266,7 +266,7 @@ class RPSGame
     end
     display_goodbye_message
   end
-  
+
   private
 
   attr_accessor :human, :computer, :game_history
