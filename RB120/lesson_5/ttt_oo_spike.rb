@@ -161,7 +161,7 @@ class TTTGame
   end
 
   def human_moves
-    puts "Choose a square (#{board.unmarked_keys.join(', ')}): "
+    puts "Choose a square (#{joinor(board.unmarked_keys)}): "
     square = nil
     loop do
       square = gets.chomp.to_i
@@ -224,6 +224,20 @@ class TTTGame
   def display_play_again_message
     puts "Let's play again!"
     puts ""
+  end
+
+  def joinor(list, separator = ",", conjunction = "or")
+    result = ""
+    
+    list.each do |num|
+      unless num == list.last 
+        result << num.to_s << separator << " "
+      else
+        result << conjunction << " " << num.to_s
+      end
+    end
+    
+    result
   end
 end
 
