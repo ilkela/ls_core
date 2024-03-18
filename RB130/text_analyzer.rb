@@ -14,7 +14,7 @@
 
 class TextAnalyzer
   def process
-    file = File.open('/Users/ilkealexander/Programming/launch_school/ls_core_repo/RB130/sample_text.txt', 'r')
+    file = File.new('/Users/ilkealexander/Programming/launch_school/ls_core_repo/RB130/sample_text.txt', 'r')
     yield(file.read)
     file.close
   end
