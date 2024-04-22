@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative 'roman_numerals'
+require_relative 'roman_numerals_bobby'
 require "minitest/reporters"
 Minitest::Reporters.use!
 

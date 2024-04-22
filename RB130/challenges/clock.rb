@@ -5,11 +5,6 @@ class Clock
 		Clock.new(hours, minutes)
 	end
 	
-	def initialize(hours, minutes = 0)
-		@hours = hours
-		@minutes = minutes
-	end
-	
 	def to_s
 		format("%02d:%02d", @hours, @minutes)
 	end
@@ -37,6 +32,18 @@ class Clock
 		
 		Clock.new(new_hour, new_minute)
 	end
+
+  def ==(other_clock)
+    other_clock.hours == hours &&
+    other_clock.minutes == minutes
+  end
+
+  private
+
+  def initialize(hours, minutes = 0)
+		@hours = hours
+		@minutes = minutes
+	end
 	
 	def convert_to_minutes(hours, minutes)
 		hours = 24 if hours == 0
@@ -56,10 +63,4 @@ class Clock
 		
 		hours
 	end
-
-  def ==(other_clock)
-    other_clock.is_a?(Clock) && 
-    other_clock.hours == hours &&
-    other_clock.minutes == minutes
-  end
 end

@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative 'point_mutations'
+require_relative 'point_mutations_bobby'
 require "minitest/reporters"
 Minitest::Reporters.use!
 
