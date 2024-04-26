@@ -63,4 +63,5 @@ class Clock
 		
 		hours
 	end
+
 end
