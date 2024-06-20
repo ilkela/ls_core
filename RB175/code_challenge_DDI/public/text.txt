@@ -1,0 +1,3 @@
+The internet is a network of networks which comprises of the physical 
+infrastructure through which data is transmitted, 
+and the protocols which govern the transmission and exchange of data.
