@@ -1,0 +1,7 @@
+<ul>
+  <% @users.each do |name, details| %>
+    <li> 
+        <a href="/list_users/<%= name %>"><%= name.capitalize %></a>
+    </li>
+  <% end %>
+</ul>

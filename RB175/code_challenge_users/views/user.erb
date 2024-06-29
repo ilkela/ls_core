@@ -1,0 +1,12 @@
+<h2 class="content-subhead"><%= @user.capitalize %></h2>
+  <p> Email: <%= @user_details[:email] %></p>
+  <p>Interests: <%= @user_details[:interests].join(", ") %></p>
+
+  <p>
+    See other users:
+    <% (@users.keys - [@user]).each do |name| %>
+      <li>
+        <a href="/list_users/<%= name %>"><%= name.capitalize %></a>
+      </li>
+    <% end %>
+  </p>
