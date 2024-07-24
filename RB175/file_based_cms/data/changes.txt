@@ -1,0 +1,7 @@
+ The block is part of the method invocation, and it is what defines a block i.e. a block is what follows method invocation
+- The block acts as an argument to the method invocation
+- It is recognized by the do..end (for multi-line blocks) structure or {..} (for single line blocks)
+- Blocks create a **new scope**: an inner scope
+- Variables initialized in the outer scope can be accessed by the inner scope but not vice versa
+- Peer scopes do not conflict. i.e. peer blocks cannot reference variables initialized in other blocks.
+- Nested blocks follow the same rules for inner and outer scopes
